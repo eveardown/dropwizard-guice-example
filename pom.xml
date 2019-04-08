@@ -23,7 +23,9 @@
         <javax.servlet.version>3.1.0</javax.servlet.version>
         <jackson-annotations.version>2.9.0</jackson-annotations.version>
         <javax.ws.rs-api.version>2.0.1</javax.ws.rs-api.version>
-        <glassfish.javax.inject.version>2.5.0-b32</glassfish.javax.inject.version>
+        <org.glassfish.hk2.version>2.5.0-b32</org.glassfish.hk2.version>
+        <glassfish.javax.inject.version>${org.glassfish.hk2.version}</glassfish.javax.inject.version>
+        <glassfish.aopalliance.version>${org.glassfish.hk2.version}</glassfish.aopalliance.version>
         <javax.inject.version>1</javax.inject.version>
         <javax.annotation-api.version>1.2</javax.annotation-api.version>
         <jaeger.version>0.32.0</jaeger.version>
@@ -54,6 +56,17 @@
                 <exclusion>
                     <groupId>org.hibernate</groupId>
                     <artifactId>hibernate-validator</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-healthchecks</artifactId>
+            <version>${metrics-healthchecks.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -92,17 +105,6 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.dropwizard.metrics</groupId>
-            <artifactId>metrics-healthchecks</artifactId>
-            <version>${metrics-healthchecks.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.google.inject</groupId>
