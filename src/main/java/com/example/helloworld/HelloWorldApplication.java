@@ -1,5 +1,7 @@
 package com.example.helloworld;
 
+import com.example.helloworld.modules.JaegerModule;
+
 import io.dropwizard.Application;
 import io.dropwizard.Bundle;
 import io.dropwizard.Configuration;
@@ -61,7 +63,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
 	    // Create the Guice bundle for the application,
 		final GuiceBundle<HelloWorldConfiguration> guiceBundle =
 		       GuiceBundle.<HelloWorldConfiguration>builder()
-		                  .modules(new HelloWorldModule())
+		                  .modules(new HelloWorldModule(), new JaegerModule())
 		                  .enableAutoConfig(getClass().getPackage().getName())
 		                  .build();
 

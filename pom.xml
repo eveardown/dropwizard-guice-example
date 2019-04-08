@@ -26,6 +26,7 @@
         <glassfish.javax.inject.version>2.5.0-b32</glassfish.javax.inject.version>
         <javax.inject.version>1</javax.inject.version>
         <javax.annotation-api.version>1.2</javax.annotation-api.version>
+        <jaeger.version>0.32.0</jaeger.version>
     </properties>
     
     <dependencies>
@@ -122,6 +123,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
+            
             <version>${jackson-annotations.version}</version>
         </dependency>
         <dependency>
@@ -144,6 +146,16 @@
             <artifactId>javax.annotation-api</artifactId>
             <version>${javax.annotation-api.version}</version>
         </dependency>
+        <dependency>
+        	<groupId>io.jaegertracing</groupId>
+        	<artifactId>jaeger-core</artifactId>
+        	<version>${jaeger.version}</version>
+    	</dependency>
+    	<dependency>
+		    <groupId>org.slf4j</groupId>
+    		<artifactId>slf4j-api</artifactId>
+    		<version>1.7.25</version>
+		</dependency>
     </dependencies>
     
     <build>
