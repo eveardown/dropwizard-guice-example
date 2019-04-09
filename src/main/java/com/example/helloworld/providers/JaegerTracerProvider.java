@@ -1,5 +1,8 @@
 package com.example.helloworld.providers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.jaegertracing.Configuration;
 import io.jaegertracing.Configuration.ReporterConfiguration;
 import io.jaegertracing.Configuration.SamplerConfiguration;
@@ -7,20 +10,15 @@ import io.jaegertracing.internal.JaegerTracer;
 import io.opentracing.Scope;
 import io.opentracing.Tracer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.inject.Provides;
-
 /**
  * Implementation of the TracerProvider interface which is used with Guice.
- * 
+ *
  * @author Jennya Dobreva
  *
  */
 public class JaegerTracerProvider implements TracerProvider {
 
-    private final static Logger logger = LoggerFactory.getLogger(JaegerTracerProvider.class);
+    private final static  Logger logger = LoggerFactory.getLogger(JaegerTracerProvider.class);
     private JaegerTracer jtracer;
 
     public JaegerTracerProvider() {
@@ -28,23 +26,27 @@ public class JaegerTracerProvider implements TracerProvider {
     }
 
     private void initTracer() {
-        SamplerConfiguration samplerConfig = new SamplerConfiguration().fromEnv().withType("const").withParam(1);
-        ReporterConfiguration reporterConfig = new ReporterConfiguration().fromEnv().withLogSpans(true);
-        Configuration config = new Configuration("jaeger-tracer-service").withSampler(samplerConfig).withReporter(
+        new SamplerConfiguration();
+        final SamplerConfiguration samplerConfig = SamplerConfiguration.fromEnv().withType("const").withParam(1);
+        new ReporterConfiguration();
+        final ReporterConfiguration reporterConfig = ReporterConfiguration.fromEnv().withLogSpans(true);
+        final Configuration config = new Configuration("jaeger-tracer-service").withSampler(samplerConfig).withReporter(
                         reporterConfig);
-        this.jtracer = config.getTracer();
+        jtracer = config.getTracer();
         logger.info("________________________Tracer is initialized ________________________");
     }
 
-    public Scope buildSpan(String operationName, String tagName) {
+    @Override
+    public Scope buildSpan(final String operationName, final String tagName) {
         logger.info("----------------------------------- Build span has been called -----------------------------------");
-        Scope scope = this.jtracer.buildSpan(operationName).startActive(true);
+        final Scope scope = jtracer.buildSpan(operationName).startActive(true);
         scope.span().setTag(tagName, operationName);
         return scope;
     }
 
+    @Override
     public Tracer getTacer() {
-        return this.jtracer;
+        return jtracer;
     }
 
 }

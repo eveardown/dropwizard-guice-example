@@ -29,27 +29,27 @@ import com.google.inject.Provides;
  */
 public class HelloWorldModule extends AbstractModule {
 
-	/**
-	 *
-	 * @see com.google.inject.AbstractModule#configure()
-	 */
-	@Override
-	protected void configure() {
-	    // Nothing to do.
-	}
+    /**
+     *
+     * @see com.google.inject.AbstractModule#configure()
+     */
+    @Override
+    protected void configure() {
+        // Nothing to do.
+    }
 
-	/**
-	 * Get the message template.
-	 * @param configuration
-	 *         The application configuration.
-	 * @return
-	 *         The template used to create the message.
-	 */
-	@Provides
-	@Named("template")
-	public String provideTemplate(final HelloWorldConfiguration configuration) {
-		return configuration.getTemplate();
-	}
+    /**
+     * Get the message template.
+     * @param configuration
+     *         The application configuration.
+     * @return
+     *         The template used to create the message.
+     */
+    @Provides
+    @Named("template")
+    public String provideTemplate(final HelloWorldConfiguration configuration) {
+        return configuration.getTemplate();
+    }
 
     /**
      * Get the default name to use.
@@ -58,10 +58,10 @@ public class HelloWorldModule extends AbstractModule {
      * @return
      *         The default name to use when no name is supplied with the request.
      */
-	@Provides
-	@Named("defaultName")
-	public String provideDefaultName(final HelloWorldConfiguration configuration) {
-		return configuration.getDefaultName();
-	}
+    @Provides
+    @Named("defaultName")
+    public String provideDefaultName(final HelloWorldConfiguration configuration) {
+        return configuration.getDefaultName();
+    }
 
 }

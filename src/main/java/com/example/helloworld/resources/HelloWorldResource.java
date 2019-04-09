@@ -44,10 +44,10 @@ import com.google.inject.name.Named;
 @Produces(MediaType.APPLICATION_JSON)
 public class HelloWorldResource {
 
-	/**
-	 * The logger to use.
-	 */
-	final Logger logger = LoggerFactory.getLogger(HelloWorldResource.class);
+    /**
+     * The logger to use.
+     */
+    final Logger logger = LoggerFactory.getLogger(HelloWorldResource.class);
 
     /**
      * The message template.
@@ -69,7 +69,7 @@ public class HelloWorldResource {
      */
     @Inject
     private Provider<HttpServletRequest> requestProvider;
-    
+
     @Inject
     private TracerProvider tracerProvider;
 
@@ -83,7 +83,7 @@ public class HelloWorldResource {
     @Inject
     public HelloWorldResource(@Named("template") final String theTemplate,
                               @Named("defaultName") final String theDefaultName) {
-    	logger.info("Creating a new HelloWorldResource!");
+        logger.info("Creating a new HelloWorldResource!");
         template = theTemplate;
         defaultName = theDefaultName;
         counter = new AtomicLong();
@@ -102,13 +102,13 @@ public class HelloWorldResource {
      */
     @GET
     public Saying sayHello(@QueryParam("name") final Optional<String> name, @Context final HttpContext context) {
-    	logger.info("User-Agent: " + requestProvider.get().getHeader("User-Agent"));
-    	Scope scope = tracerProvider.buildSpan("say-hello", "helloTag");
+        logger.info("User-Agent: " + requestProvider.get().getHeader("User-Agent"));
+        Scope scope = tracerProvider.buildSpan("say-hello", "helloTag");
         Saying saying = new Saying(counter.incrementAndGet(),
                           String.format(template, name.or(defaultName)));
         scope.span().log(ImmutableMap.of("event", "string-format", "value", defaultName));
         return saying;
-        
+
     }
 
     /**
@@ -118,6 +118,6 @@ public class HelloWorldResource {
      */
     @PreDestroy
     void destroy() {
-    	logger.info("Destroying HelloWorldResource... :(");
+        logger.info("Destroying HelloWorldResource... :(");
     }
 }

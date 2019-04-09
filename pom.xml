@@ -7,6 +7,13 @@
 	<version>0.7.0-SNAPSHOT</version>
 	<name>Dropwizard Guice Example</name>
 
+    <url>${artifactory-maven-site-url}/${project.groupId}/${project.artifactId}/${project.version}</url>
+
+    <scm>
+        <connection>${git.scm.url}/${project.artifactId}.git</connection>
+        <developerConnection>${git.scm.url}/${project.artifactId}.git</developerConnection>
+    </scm>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -14,23 +21,93 @@
         <dropwizard.version>1.3.9</dropwizard.version>
         <dropwizard-guicey.version>4.2.2</dropwizard-guicey.version>
         <javassist.version>3.24.1-GA</javassist.version>
-        <joda-time.version>2.9.1</joda-time.version>
-        <hibernate-validator.version>5.4.3.Final</hibernate-validator.version>
+        <joda-time.version>2.10.1</joda-time.version>
+        <hibernate-validator.version>6.0.16.Final</hibernate-validator.version>
         <slf4j.version>1.7.26</slf4j.version>
         <guava.version>27.1-jre</guava.version>
         <metrics-healthchecks.version>4.0.5</metrics-healthchecks.version>
         <guice.version>4.2.2</guice.version>
         <javax.servlet.version>3.1.0</javax.servlet.version>
-        <jackson-annotations.version>2.9.0</jackson-annotations.version>
-        <javax.ws.rs-api.version>2.0.1</javax.ws.rs-api.version>
-        <org.glassfish.hk2.version>2.5.0-b32</org.glassfish.hk2.version>
-        <glassfish.javax.inject.version>${org.glassfish.hk2.version}</glassfish.javax.inject.version>
-        <glassfish.aopalliance.version>${org.glassfish.hk2.version}</glassfish.aopalliance.version>
+        <javax-validation-api.version>2.0.1.Final</javax-validation-api.version>
+        <jackson-annotations.version>2.9.8</jackson-annotations.version>
+        <javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
+        <org.glassfish.hk2.version>2.5.0-b63</org.glassfish.hk2.version>
+        <glassfish.javax.inject.version>2.5.0-b62</glassfish.javax.inject.version>
+        <glassfish.aopalliance.version>2.5.0-b62</glassfish.aopalliance.version>
         <javax.inject.version>1</javax.inject.version>
-        <javax.annotation-api.version>1.2</javax.annotation-api.version>
-        <jaeger.version>0.32.0</jaeger.version>
+        <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
+        <jaeger.version>0.34.0</jaeger.version>
+        <opentracing-api.version>0.32.0</opentracing-api.version>
+        <jakarta.annotation-api.version>1.3.4</jakarta.annotation-api.version>
+        <jakarta.inject.version>${org.glassfish.hk2.version}</jakarta.inject.version>
+
+        <!-- Version of bcel used for reporting.                                                -->
+        <project-info-reports-bcel.version>6.3</project-info-reports-bcel.version>
+
+        <!-- Web DAV support for the maven site plugin.                                         -->
+        <!-- This version is required until Maven 3.6.1 is released. See                        -->
+        <!-- https://issues.apache.org/jira/browse/MSITE-832                                    -->
+        <wagon-webdav-jackrabbit.version>3.2.0</wagon-webdav-jackrabbit.version>
+
+        <!-- Logging dependency for the maven site plugin. -->
+        <site-slf4j.version>1.7.26</site-slf4j.version>
+
+        <!--  Plugin versions -->
+
+        <duplicate-finder-maven-plugin.version>1.3.0</duplicate-finder-maven-plugin.version>
+        <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
+        <maven-enforcer-plugin.version>3.0.0-M2</maven-enforcer-plugin.version>
+        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+        <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+        <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
+        <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+        <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
+        <maven-shade-plugin.version>3.2.1</maven-shade-plugin.version>
+        <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
+        <maven-site-plugin.version>3.7.1-estafet</maven-site-plugin.version>
+        <maven-jxr-plugin.version>2.5</maven-jxr-plugin.version>
+        <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
+        <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
+        <maven-install-plugin.version>3.0.0-M1</maven-install-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
+        <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
+        <maven-assembly-plugin.version>3.1.1</maven-assembly-plugin.version>
+        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+        
+        
+        <!-- Artifactory related properties -->
+
+        <!-- The Maven site plugin's site:deploy goal does not expand variables defined in      -->
+        <!-- settings.xml. See https://issues.apache.org/jira/browse/MSIT-617.                  -->
+        <!-- This bug is not fixed in Maven version 3.3.9 using version 3.4 of the Maven site   -->
+        <!-- plugin.                                                                            -->
+
+        <libs-release-local-repo>libs-release-local</libs-release-local-repo>
+        <libs-snapshot-local-repo>libs-snapshot-local</libs-snapshot-local-repo>
+
+        <artifactory-url>http://localhost:8081/artifactory</artifactory-url>
+        <artifactory-snapshots-url>${artifactory-url}/${libs-snapshot-local-repo}/</artifactory-snapshots-url>
+        <artifactory-releases-url>${artifactory-url}/${libs-release-local-repo}/</artifactory-releases-url>
+        <artifactory-snapshot-releases-url>${artifactory-url}/${libs-snapshot-local-repo}/</artifactory-snapshot-releases-url>
+        <artifactory-public-url>${artifactory-url}/groups/public/</artifactory-public-url>
+
+        <mavenRepostoryUrl>${artifactory-url}</mavenRepostoryUrl>
+        <artifactory-maven-site-url>dav:${artifactory-url}/sites</artifactory-maven-site-url>
+
+        <!-- SCM related properties. -->
+
+        <!-- The GIT repository owner -->
+        <git.repo.owner>eveardown</git.repo.owner>
+
+        <!-- The Git Host -->
+        <git.host>github.com</git.host>
+
+        <git.scm.url>scm:git:ssh://git@${git.host}/${git.repo.owner}</git.scm.url>
+
+        <skip.unit.tests>false</skip.unit.tests>
+        <skip.integration.tests>false</skip.integration.tests>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>io.dropwizard</groupId>
@@ -57,6 +134,34 @@
                     <groupId>org.hibernate</groupId>
                     <artifactId>hibernate-validator</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>javax.annotation</groupId>
+                    <artifactId>javax.annotation-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.ws.rs</groupId>
+                    <artifactId>javax.ws.rs-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.hk2.external</groupId>
+                    <artifactId>javax.inject</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.hk2</groupId>
+                    <artifactId>hk2-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.hk2</groupId>
+                    <artifactId>hk2-locator</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.validation</groupId>
+                    <artifactId>validation-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-annotations</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -67,6 +172,32 @@
                 <exclusion>
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.hk2</groupId>
+            <artifactId>hk2-api</artifactId>
+            <version>${org.glassfish.hk2.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.annotation</groupId>
+                    <artifactId>javax.annotation-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.hk2</groupId>
+            <artifactId>hk2-locator</artifactId>
+            <version>${org.glassfish.hk2.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.annotation</groupId>
+                    <artifactId>javax.annotation-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.javassist</groupId>
+                    <artifactId>javassist</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -102,7 +233,7 @@
             <version>${joda-time.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator.version}</version>
         </dependency>
@@ -125,8 +256,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            
             <version>${jackson-annotations.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${javax-validation-api.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.ws.rs</groupId>
@@ -152,29 +287,99 @@
         	<groupId>io.jaegertracing</groupId>
         	<artifactId>jaeger-core</artifactId>
         	<version>${jaeger.version}</version>
-        	<exclusions>
-        		<exclusion>
-        			<groupId>org.slf4j</groupId>
-        			<artifactId>slf4j-api</artifactId>
-        		</exclusion>
-        	</exclusions>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.opentracing</groupId>
+                    <artifactId>opentracing-api</artifactId>
+                </exclusion>
+            </exclusions>
     	</dependency>
-  
+        <dependency>
+            <groupId>io.opentracing</groupId>
+            <artifactId>opentracing-api</artifactId>
+            <version>${opentracing-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta.annotation-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.hk2.external</groupId>
+            <artifactId>jakarta.inject</artifactId>
+            <version>${jakarta.inject.version}</version>
+        </dependency>
     </dependencies>
-    
+
+    <distributionManagement>
+        <site>
+            <!-- Sites needs implementing for Artifactory.                                      -->
+            <name>Sites</name>
+            <!-- The user's setttings.xml file must contain a server with the id sites          -->
+            <id>sites</id>
+            <!-- The Maven plugin's site:deploy goal does not expand variables defined in       -->
+            <!-- settings.xml. See https://issues.apache.org/jira/browse/MSIT-617.              -->
+            <!-- This bug is not fixed in Maven version 3.3.9 using version 3.4 of the Maven    -->
+            <!-- site plugin. -->
+            <url>${artifactory-maven-site-url}/${project.groupId}/${project.artifactId}/${project.version}</url>
+        </site>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>release</id>
+            <name>${libs-release-local-repo}</name>
+            <url>${artifactory-releases-url}</url>
+            <layout>default</layout>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>true</uniqueVersion>
+            <id>snapshots</id>
+            <name>${libs-snapshot-local-repo}</name>
+            <url>${artifactory-snapshot-releases-url}</url>
+            <layout>default</layout>
+        </snapshotRepository>
+    </distributionManagement>
+
     <build>
-        <plugins>
+         <plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>${maven-antrun-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven-assembly-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>${maven-clean-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>${maven-install-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${maven-release-plugin.version}</version>
+            </plugin>
             <plugin>
                 <groupId>org.basepom.maven</groupId>
                 <artifactId>duplicate-finder-maven-plugin</artifactId>
-                <version>1.3.0</version>
+                <version>${duplicate-finder-maven-plugin.version}</version>
                 <configuration>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>${maven-dependency-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>analyze</id>
@@ -189,13 +394,19 @@
                         <ignoredUnusedDeclaredDependency>org.javassist:javassist:jar:${javassist.version}</ignoredUnusedDeclaredDependency>
                         <ignoredUnusedDeclaredDependency>joda-time:joda-time:jar:${joda-time.version}</ignoredUnusedDeclaredDependency>
                         <ignoredUnusedDeclaredDependency>javax.inject:javax.inject:jar:${javax.inject.version}</ignoredUnusedDeclaredDependency>
+                        <ignoredUnusedDeclaredDependency>org.glassfish.hk2:hk2-locator:jar:${org.glassfish.hk2.version}</ignoredUnusedDeclaredDependency>
+                        <ignoredUnusedDeclaredDependency>javax.validation:validation-api:jar:${javax-validation-api.version}</ignoredUnusedDeclaredDependency>
+                        <ignoredUnusedDeclaredDependency>org.glassfish.hk2.external:javax.inject:jar:${glassfish.javax.inject.version}</ignoredUnusedDeclaredDependency>
+                        <ignoredUnusedDeclaredDependency>javax.annotation:javax.annotation-api:jar:${javax.annotation-api.version}</ignoredUnusedDeclaredDependency>
+                        <ignoredUnusedDeclaredDependency>jakarta.annotation:jakarta.annotation-api:jar:${jakarta.annotation-api.version}</ignoredUnusedDeclaredDependency>
+                        <ignoredUnusedDeclaredDependency>org.glassfish.hk2.external:jakarta.inject:jar:${jakarta.inject.version}</ignoredUnusedDeclaredDependency>
                     </ignoredUnusedDeclaredDependencies>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M2</version>
+                <version>${maven-enforcer-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>enforce-java</id>
@@ -216,12 +427,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>${maven-compiler-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>${maven-source-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -234,7 +445,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>${maven-resources-plugin.version}</version>
                 <configuration>
                     <outputDirectory />
                     <encoding>UTF-8</encoding>
@@ -243,7 +454,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>${maven-jar-plugin.version}</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -254,8 +465,13 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>${maven-deploy-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>${maven-shade-plugin.version}</version>
                 <configuration>
                     <createDependencyReducedPom>true</createDependencyReducedPom>
                     <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
@@ -289,7 +505,75 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>${maven-site-plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.wagon</groupId>
+                        <artifactId>wagon-webdav-jackrabbit</artifactId>
+                        <version>${wagon-webdav-jackrabbit.version}</version>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                        <version>${site-slf4j.version}</version>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-jdk14</artifactId>
+                        <version>${site-slf4j.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>${maven-project-info-reports-plugin.version}</version>
+                <configuration>
+                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.bcel</groupId>
+                        <artifactId>bcel</artifactId>
+                        <version>${project-info-reports-bcel.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
         </plugins>
     </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <configuration>
+                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>${maven-jxr-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>${versions-maven-plugin.version}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>dependency-updates-report</report>
+                            <report>plugin-updates-report</report>
+                            <report>property-updates-report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
 
