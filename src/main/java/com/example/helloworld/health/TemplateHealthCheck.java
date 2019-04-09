@@ -17,10 +17,10 @@ import ru.vyarus.dropwizard.guice.module.installer.feature.health.NamedHealthChe
 @Singleton
 public class TemplateHealthCheck extends NamedHealthCheck {
 
-	/**
-	 * The template to check.
-	 */
-	private final String template;
+    /**
+     * The template to check.
+     */
+    private final String template;
 
     /**
      * Constructor.

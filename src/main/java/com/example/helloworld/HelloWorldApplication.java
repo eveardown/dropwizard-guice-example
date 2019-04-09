@@ -28,46 +28,46 @@ import ru.vyarus.dropwizard.guice.GuiceBundle;
  */
 public class HelloWorldApplication extends Application<HelloWorldConfiguration> {
 
-	/**
-	 * The entry point for the service.
-	 * @param args
-	 *         The command line arguments. The first argument must be "{@code server}" and the second is the YAML
-	 *         server configuration file, {@code server.yml}.
-	 */
-	public static void main(final String[] args) {
-		try {
-		    new HelloWorldApplication().run(args);
-		}
-		catch (final Exception e) {
-		    System.err.println("An error occured in the helllo world service. " + e.getMessage());
-		    e.printStackTrace(System.err);
-		}
-	}
+    /**
+     * The entry point for the service.
+     * @param args
+     *         The command line arguments. The first argument must be "{@code server}" and the second is the YAML
+     *         server configuration file, {@code server.yml}.
+     */
+    public static void main(final String[] args) {
+        try {
+            new HelloWorldApplication().run(args);
+        }
+        catch (final Exception e) {
+            System.err.println("An error occured in the helllo world service. " + e.getMessage());
+            e.printStackTrace(System.err);
+        }
+    }
 
-	/**
-	 * Initialises the application bootstrap.
-	 *
-	 * <p>This method enables auto-configuration for all classes in the {@code com.example.helloworld} package, and is
-	 * called from the Dropwizard framework.</p>
-	 *
-	 * @param bootstrap
-	 *         The pre-start application environment, containing everything required to bootstrap a Dropwizard
+    /**
+     * Initialises the application bootstrap.
+     *
+     * <p>This method enables auto-configuration for all classes in the {@code com.example.helloworld} package, and is
+     * called from the Dropwizard framework.</p>
+     *
+     * @param bootstrap
+     *         The pre-start application environment, containing everything required to bootstrap a Dropwizard
      *         command.
-	 * @see io.dropwizard.Application#initialize(io.dropwizard.setup.Bootstrap)
-	 */
-	@Override
-	public void initialize(final Bootstrap<HelloWorldConfiguration> bootstrap) {
+     * @see io.dropwizard.Application#initialize(io.dropwizard.setup.Bootstrap)
+     */
+    @Override
+    public void initialize(final Bootstrap<HelloWorldConfiguration> bootstrap) {
 
-	    // Create the Guice bundle for the application,
-		final GuiceBundle<HelloWorldConfiguration> guiceBundle =
-		       GuiceBundle.<HelloWorldConfiguration>builder()
-		                  .modules(new HelloWorldModule())
-		                  .enableAutoConfig(getClass().getPackage().getName())
-		                  .build();
+        // Create the Guice bundle for the application,
+        final GuiceBundle<HelloWorldConfiguration> guiceBundle =
+               GuiceBundle.<HelloWorldConfiguration>builder()
+                          .modules(new HelloWorldModule())
+                          .enableAutoConfig(getClass().getPackage().getName())
+                          .build();
 
-		// Add the Guice bundle to the Dropwizard bootstrap.
-		bootstrap.addBundle(guiceBundle);
-	}
+        // Add the Guice bundle to the Dropwizard bootstrap.
+        bootstrap.addBundle(guiceBundle);
+    }
 
     /**
      * @return
