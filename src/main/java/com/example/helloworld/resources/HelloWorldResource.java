@@ -1,8 +1,5 @@
 package com.example.helloworld.resources;
 
-import io.opentracing.Scope;
-import io.opentracing.Span;
-
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.annotation.PreDestroy;
@@ -15,7 +12,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.xml.ws.spi.http.HttpContext;
 
-import org.jvnet.hk2.annotations.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +22,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
+
+import io.opentracing.Span;
 
 
 /**
@@ -70,6 +68,9 @@ public class HelloWorldResource {
     @Inject
     private Provider<HttpServletRequest> requestProvider;
 
+    /**
+     * The {@link io.opentracing.Tracer} provider.
+     */
     @Inject
     private TracerProvider tracerProvider;
 
@@ -103,10 +104,10 @@ public class HelloWorldResource {
     @GET
     public Saying sayHello(@QueryParam("name") final Optional<String> name, @Context final HttpContext context) {
         logger.info("User-Agent: " + requestProvider.get().getHeader("User-Agent"));
-        Scope scope = tracerProvider.buildSpan("say-hello", "helloTag");
-        Saying saying = new Saying(counter.incrementAndGet(),
+        final Saying saying = new Saying(counter.incrementAndGet(),
                           String.format(template, name.or(defaultName)));
-        scope.span().log(ImmutableMap.of("event", "string-format", "value", defaultName));
+        final Span log = tracerProvider.getTacer().activeSpan();
+        log.log(ImmutableMap.of("event", "string-format", "value", defaultName));
         return saying;
 
     }
