@@ -1,3 +1,4 @@
+serviceName: hello-world
 template: Hello, %s!
 defaultName: Stranger
 

@@ -64,6 +64,14 @@ import io.dropwizard.Configuration;
  * @author Steve Brown, Estafet Ltd.
  */
 public class HelloWorldConfiguration extends Configuration {
+
+    /**
+     * The name of the service.
+     */
+    @NotEmpty
+    @JsonProperty(required = true)
+    private String serviceName;
+
     /**
      * The template string to use to create the message.
      */
@@ -77,6 +85,14 @@ public class HelloWorldConfiguration extends Configuration {
     @NotEmpty
     @JsonProperty
     private final String defaultName = "Stranger";
+
+    /**
+     * @return
+     *          The service name.
+     */
+    public String getServiceName() {
+        return serviceName;
+    }
 
     /**
      * @return
