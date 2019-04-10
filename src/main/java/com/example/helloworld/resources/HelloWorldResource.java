@@ -12,6 +12,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.xml.ws.spi.http.HttpContext;
 
+import org.eclipse.microprofile.opentracing.Traced;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,6 +93,7 @@ public class HelloWorldResource {
      *          The result in a {@link Saying} object.
      */
     @GET
+    @Traced
     public Saying sayHello(@QueryParam("name") final Optional<String> name, @Context final HttpContext context) {
         logger.info("User-Agent: " + requestProvider.get().getHeader("User-Agent"));
         return new Saying(counter.incrementAndGet(),
