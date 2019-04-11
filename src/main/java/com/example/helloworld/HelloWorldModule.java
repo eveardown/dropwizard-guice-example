@@ -2,9 +2,13 @@ package com.example.helloworld;
 
 import javax.inject.Named;
 
+import com.example.helloworld.tracing.Tracing;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
+
+import io.opentracing.Tracer;
+import io.opentracing.util.GlobalTracer;
 
 /**
  * The {@link com.google.inject.Module} implementation.
@@ -35,7 +39,25 @@ public class HelloWorldModule extends AbstractModule {
      */
     @Override
     protected void configure() {
-        // Nothing to do.
+        final Tracer tracer = Tracing.init("hello-world");
+        final boolean registeredOK = GlobalTracer.registerIfAbsent(tracer);
+
+        if (!registeredOK) {
+            throw new RuntimeException("Failed to register the global tracer.");
+        }
+    }
+
+    /**
+     * Get the service name.
+     * @param configuration
+     *         The application configuration.
+     * @return
+     *         The name of this service.
+     */
+    @Provides
+    @Named("serviceName")
+    public String provideServiceName(final HelloWorldConfiguration configuration) {
+        return configuration.getServiceName();
     }
 
     /**

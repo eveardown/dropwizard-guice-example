@@ -1,13 +1,14 @@
 package com.example.helloworld;
 
-import com.example.helloworld.context.OpenTracingContextInitializer;
-import com.example.helloworld.features.HK2Feature;
+import com.example.helloworld.tracing.OpenTracingContextInitializer;
 
 import ch.qos.logback.classic.Level;
 import io.dropwizard.Application;
 import io.dropwizard.Bundle;
 import io.dropwizard.Configuration;
+import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import ru.vyarus.dropwizard.guice.GuiceBundle;
 
 /**
  * @author Steve Brown, Estafet Ltd.
@@ -41,7 +42,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
             new HelloWorldApplication().run(args);
         }
         catch (final Exception e) {
-            System.err.println("An error occured in the helllo world service. " + e.getMessage());
+            System.err.println("An error occured in the helllo-world service. " + e.getMessage());
             e.printStackTrace(System.err);
         }
     }
@@ -57,19 +58,19 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
      *         command.
      * @see io.dropwizard.Application#initialize(io.dropwizard.setup.Bootstrap)
      */
-//    @Override
-//    public void initialize(final Bootstrap<HelloWorldConfiguration> bootstrap) {
-//
-//        // Create the Guice bundle for the application,
-//        final GuiceBundle<HelloWorldConfiguration> guiceBundle =
-//               GuiceBundle.<HelloWorldConfiguration>builder()
-//                          .modules(new HelloWorldModule())
-//                          .enableAutoConfig(getClass().getPackage().getName())
-//                          .build();
-//
-//        // Add the Guice bundle to the Dropwizard bootstrap.
-//        bootstrap.addBundle(guiceBundle);
-//    }
+    @Override
+    public void initialize(final Bootstrap<HelloWorldConfiguration> bootstrap) {
+
+        // Create the Guice bundle for the application,
+        final GuiceBundle<HelloWorldConfiguration> guiceBundle =
+               GuiceBundle.<HelloWorldConfiguration>builder()
+                          .modules(new HelloWorldModule())
+                          .enableAutoConfig(getClass().getPackage().getName())
+                          .build();
+
+        // Add the Guice bundle to the Dropwizard bootstrap.
+        bootstrap.addBundle(guiceBundle);
+    }
 
     /**
      * Set the log level at which to log on application startup.
@@ -105,8 +106,6 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
     @Override
     public void run(final HelloWorldConfiguration configuration,
                     final Environment environment) throws Exception {
-        environment.jersey().register(new HK2Feature());
-        environment.jersey().register(new HellowWorldBinder());
-        environment.jersey().register(new OpenTracingContextInitializer(configuration.getServiceName()));
+        environment.servlets().addServletListeners(new OpenTracingContextInitializer());
     }
 }

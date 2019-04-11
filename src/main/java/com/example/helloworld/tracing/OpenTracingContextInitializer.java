@@ -1,7 +1,7 @@
 /**
  * Copyright Estafet Ltd. 2019. All rights reserved.
  */
-package com.example.helloworld.context;
+package com.example.helloworld.tracing;
 
 import java.util.EnumSet;
 
@@ -11,10 +11,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.annotation.WebListener;
 
-import com.example.helloworld.lib.Tracing;
-
 import io.opentracing.contrib.jaxrs2.server.SpanFinishingFilter;
-import io.opentracing.util.GlobalTracer;
 
 /**
  *
@@ -26,20 +23,14 @@ import io.opentracing.util.GlobalTracer;
 public class OpenTracingContextInitializer implements javax.servlet.ServletContextListener {
 
     /**
-     * The name of the service to trace.
-     */
-    private final String service;
-
-    /**
      * Construct from the service name.
-     * @param serviceName
-     *          The name of the service.
      */
-    public OpenTracingContextInitializer(final String serviceName) {
-        service = serviceName;
+    public OpenTracingContextInitializer() {
+        super();
     }
 
     /**
+     * Register the {@link SpanFinishingFilter}
      * @param servletContextEvent
      *          The {@link ServletContextEvent} containing the {@link javax.servlet.ServletContext} to be initialised.
      *
@@ -47,9 +38,6 @@ public class OpenTracingContextInitializer implements javax.servlet.ServletConte
      */
     @Override
     public void contextInitialized(final ServletContextEvent servletContextEvent) {
-        final io.opentracing.Tracer tracer = Tracing.init(service);
-        GlobalTracer.registerIfAbsent(tracer);
-
         final ServletContext servletContext = servletContextEvent.getServletContext();
         final Dynamic filterRegistration = servletContext.addFilter("tracingFilter", new SpanFinishingFilter());
         filterRegistration.setAsyncSupported(true);

@@ -7,7 +7,7 @@ import javax.inject.Singleton;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
-import com.example.helloworld.context.OpenTracingContextInitializer;
+import com.example.helloworld.tracing.OpenTracingContextInitializer;
 
 /**
  * Bind implementations to contracts (interfaces).

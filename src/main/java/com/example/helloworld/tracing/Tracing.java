@@ -1,4 +1,4 @@
-package com.example.helloworld.lib;
+package com.example.helloworld.tracing;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Set;
 
 import javax.ws.rs.core.MultivaluedMap;
+
+import com.example.helloworld.lib.Debug;
 
 import io.jaegertracing.Configuration;
 import io.jaegertracing.Configuration.ReporterConfiguration;
@@ -34,12 +36,12 @@ public final class Tracing {
 
     /**
      * Initialise tracing for a service.
-     * @param service
+     * @param serviceName
      *          The name of the service to initialise tracing for.
      * @return
      *          The tracing implementation.
      */
-    public static Tracer init(final String service) {
+    public static Tracer init(final String serviceName) {
 
         // The sampler always makes the same decision for all traces. It samples all traces. If the parameter were
         // zero, it would sample no traces.
@@ -53,12 +55,12 @@ public final class Tracing {
         final ReporterConfiguration reporterConfiguration = ReporterConfiguration.fromEnv().withLogSpans(Boolean.TRUE);
 
         // The configuration encapsulates the configuration for sampling and reporting.
-        final Configuration configuration = new Configuration(service).withSampler(samplerConfiguration)
-                                                                      .withReporter(reporterConfiguration);
+        final Configuration configuration = new Configuration(serviceName).withSampler(samplerConfiguration)
+                                                                          .withReporter(reporterConfiguration);
 
         // Create the tracer from the configuration.
         final Tracer tracer = configuration.getTracer();
-        Debug.debug(service, "init", "Created tracer: " + tracer.toString() + "for service " + service + ".");
+        Debug.debug(serviceName, "init", "Created tracer: " + tracer.toString() + "for service " + serviceName + ".");
         return tracer;
     }
 
