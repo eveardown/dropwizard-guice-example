@@ -14,7 +14,7 @@ import io.opentracing.contrib.jaxrs2.server.ServerTracingDynamicFeature;
 import io.opentracing.util.GlobalTracer;
 
 /**
- *
+ * A {@link DynamicFeature} to allow Jaeger tracing instrumentation.
  *
  *
  * @author Steve Brown, Estafet Ltd.
@@ -24,6 +24,9 @@ public class TracingInitialiser implements DynamicFeature {
 
     /**
      * The {@link ServerTracingDynamicFeature} that starts the tracing spans.
+     *
+     * <p>The {@link GlobalTracer} <strong>must</strong> have been registered before this object is instantiated.
+     * Otherwise, a noop tracer will be used and no traces will show on the Jaeger UI.</p>
      */
     private final ServerTracingDynamicFeature serverTracingDynamicFeature;
 
@@ -35,9 +38,10 @@ public class TracingInitialiser implements DynamicFeature {
         final ServerTracingDynamicFeature.Builder builder = new ServerTracingDynamicFeature.Builder(GlobalTracer.get());
 
          serverTracingDynamicFeature = builder.withOperationNameProvider(ClassNameOperationName.newBuilder())
-                                             .withJoinExistingActiveSpan(true)
-                                             .withTraceSerialization(true)
-                                             .build();    }
+                                              .withJoinExistingActiveSpan(true)
+                                              .withTraceSerialization(true)
+                                              .build();
+         }
 
     /**
      * Register the {@link io.opentracing.contrib.jaxrs2.server.ServerTracingFilter}.

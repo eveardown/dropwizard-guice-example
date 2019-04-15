@@ -1,6 +1,7 @@
 package com.example.helloworld;
 
 import com.example.helloworld.tracing.OpenTracingContextInitializer;
+import com.example.helloworld.tracing.Tracing;
 
 import ch.qos.logback.classic.Level;
 import io.dropwizard.Application;
@@ -39,6 +40,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
      */
     public static void main(final String[] args) {
         try {
+            Tracing.init("hello-world");
             new HelloWorldApplication().run(args);
         }
         catch (final Exception e) {

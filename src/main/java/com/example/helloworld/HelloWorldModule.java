@@ -2,7 +2,6 @@ package com.example.helloworld;
 
 import javax.inject.Named;
 
-import com.example.helloworld.tracing.Tracing;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
@@ -34,17 +33,21 @@ import io.opentracing.util.GlobalTracer;
 public class HelloWorldModule extends AbstractModule {
 
     /**
+     * Configure the module.
+     *
+     * <p>Create the {@link Tracer} and register it as the {@link GlobalTracer}.</p>
      *
      * @see com.google.inject.AbstractModule#configure()
      */
     @Override
     protected void configure() {
-        final Tracer tracer = Tracing.init("hello-world");
-        final boolean registeredOK = GlobalTracer.registerIfAbsent(tracer);
-
-        if (!registeredOK) {
-            throw new RuntimeException("Failed to register the global tracer.");
-        }
+//        bind(HelloWorldConfiguration.class).to(HelloWorldConfiguration.class);
+//        final Tracer tracer = Tracing.init("hello-world");
+//        final boolean registeredOK = GlobalTracer.registerIfAbsent(tracer);
+//
+//        if (!registeredOK) {
+//            throw new RuntimeException("Failed to register the global tracer.");
+//        }
     }
 
     /**
